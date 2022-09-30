@@ -24,3 +24,12 @@ body {
   background-color: aquamarine;
   
 }
+
+img {
+  width: 30px;
+  height: 30px;
+}
+li {
+  display: block;
+
+}
