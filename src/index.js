@@ -14,14 +14,20 @@ const refs = {
 refs.input.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
 
 function onInput(e) {
-  refs.list.textContent = '';
-  refs.info.textContent = '';
-  fetchCountries(e.target.value.trim()).then(countries => {
-    oneCountries(countries);
-    moreTenCountries(countries);
-    lotCountries(countries);
-    noCountries(countries);
-  });
+  fetchCountries(e.target.value.trim())
+    .then(countries => {
+      oneCountries(countries);
+      moreTenCountries(countries);
+      lotCountries(countries);
+    })
+    .catch(error => {
+      refs.info.textContent = '';
+      refs.list.textContent = '';
+      Notify.failure('Oops, there is no country with that name', {
+        position: 'center-top',
+      });
+      return error;
+    });
 }
 
 // https://restcountries.com/v2/all?fields=name,capital,currencies
@@ -36,41 +42,43 @@ function moreTenCountries(countries) {
     Notify.info('Too many matches found. Please enter a more specific name.', {
       position: 'center-top',
     });
+    return (refs.info.textContent = '');
   }
 }
 
-function noCountries(countries) {
-  if (countries.length === 0) {
-    Notify.failure('Oops, there is no country with that name', {
-      position: 'center-top',
-    });
-  }
-}
+// function noCountries(countries) {
+//   if (countries.length < 0) {
+//     Notify.failure('Oops, there is no country with that name', {
+//       position: 'center-top',
+//     });
+//   }
+// }
 
 function lotCountries(countries) {
   if (countries.length >= 2 && countries.length <= 10) {
     const listMarkup = countries
       .map(({ flags, name }) => {
-        return `<li><img src="${flags.svg}"
+        return `<li class="country__img"><img src="${flags.svg}"
           alt="${name.official}">
-          <p>${name.official}</p></li>`;
+          <h3 class="country__name">${name.official}</h3></li>`;
       })
       .join('');
     refs.list.innerHTML = listMarkup;
-    return;
+    return (refs.info.textContent = '');
   }
 }
 
 function oneCountries(countries) {
   const infoMarkup = countries
     .map(({ flags, name, capital, population, languages }) => {
-      return `<img src="${flags.svg}"
+      return `<li class="country__img"><img src="${flags.svg}"
           alt="${name.official}">
-          <p>${name.official}</p>
+          <h3 class="country__name">${name.official}</h3></li>
           <p>Capital: ${capital}</p>
           <p>Population: ${population}</p>
           <p>Languages: ${Object.values(languages)}</p>`;
     })
     .join('');
   refs.info.innerHTML = infoMarkup;
+  return (refs.list.textContent = '');
 }

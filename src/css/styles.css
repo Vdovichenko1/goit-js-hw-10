@@ -27,9 +27,24 @@ body {
 
 img {
   width: 30px;
-  height: 30px;
+  height: 20px;
 }
 li {
-  display: block;
+  list-style: none;
+}
+.country__img {
+  display: flex;
+  align-items: center;
+}
+.country__name {
+  margin-left: 10px
+}
 
+.country-info {
+  padding-left: 40px
+}
+.country__params {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
