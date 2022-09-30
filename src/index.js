@@ -20,8 +20,6 @@ function onInput(e) {
     lotCountries(countries);
     noCountries(countries);
   });
-  refs.list.textContent = '';
-  refs.info.textContent = '';
 }
 
 // https://restcountries.com/v2/all?fields=name,capital,currencies
