@@ -1,0 +1,2 @@
+const n={input:document.querySelector("#search-box"),list:document.querySelector(".country-list"),info:document.querySelector(".country-info")};n.input.addEventListener("input",(function(o){fetch("https://restcountries.com/v2/all?fields=uk").then((n=>n.json())).then((t=>{console.log(t);const e=`<h2>${o.official}</h2>\n<p>Capital: ${capital}</p>\n<p>Population: ${population}</p>\n<p>Languages: ${languages}</p>`;n.list.innerHTML=e,console.log(e)})).catch((n=>{console.log(n)}))}));
+//# sourceMappingURL=index.c7f0c7c3.js.map
