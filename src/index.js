@@ -14,6 +14,8 @@ const refs = {
 refs.input.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
 
 function onInput(e) {
+  refs.list.textContent = '';
+  refs.info.textContent = '';
   fetchCountries(e.target.value.trim()).then(countries => {
     oneCountries(countries);
     moreTenCountries(countries);
