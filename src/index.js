@@ -1,12 +1,9 @@
 import './css/styles.css';
 import debounce from 'lodash.debounce';
 import { Notify } from 'notiflix';
+import { fetchCountries } from './fetchCountries';
 
 const DEBOUNCE_DELAY = 300;
-
-const searchOptions = new URLSearchParams({
-  fields: 'name,capital,population,flags,languages',
-});
 
 const refs = {
   input: document.querySelector('#search-box'),
@@ -18,9 +15,9 @@ refs.input.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
 
 function onInput(e) {
   fetchCountries(e.target.value.trim()).then(countries => {
+    oneCountries(countries);
     moreTenCountries(countries);
     lotCountries(countries);
-    oneCountries(countries);
     noCountries(countries);
   });
   refs.list.textContent = '';
@@ -34,17 +31,6 @@ function onInput(e) {
 // flags.svg - посилання на зображення прапора
 // languages - масив мов
 
-function fetchCountries(name) {
-  return fetch(
-    `https://restcountries.com/v3.1/name/${name}?${searchOptions}`
-  ).then(response => {
-    if (!response.ok) {
-      throw new Error(response.status);
-    }
-    return response.json();
-  });
-}
-
 function moreTenCountries(countries) {
   if (countries.length > 10) {
     Notify.info('Too many matches found. Please enter a more specific name.', {
@@ -55,7 +41,7 @@ function moreTenCountries(countries) {
 
 function noCountries(countries) {
   if (countries.length === 0) {
-    Notify.info('Oops, there is no country with that name', {
+    Notify.failure('Oops, there is no country with that name', {
       position: 'center-top',
     });
   }
