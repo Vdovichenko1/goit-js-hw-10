@@ -14,7 +14,11 @@ const refs = {
 refs.input.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
 
 function onInput(e) {
-  fetchCountries(e.target.value.trim())
+  const searchInput = e.target.value.trim();
+  if (searchInput === '') {
+    return;
+  }
+  fetchCountries(searchInput)
     .then(countries => {
       oneCountries(countries);
       moreTenCountries(countries);
@@ -29,13 +33,6 @@ function onInput(e) {
       return error;
     });
 }
-
-// https://restcountries.com/v2/all?fields=name,capital,currencies
-// name.official - повна назва країни
-// capital - столиця
-// population - населення
-// flags.svg - посилання на зображення прапора
-// languages - масив мов
 
 function moreTenCountries(countries) {
   if (countries.length > 10) {
