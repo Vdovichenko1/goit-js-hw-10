@@ -60,8 +60,8 @@ function lotCountries(countries) {
           <h3 class="country__name">${name.official}</h3></li>`;
       })
       .join('');
+    refs.info.textContent = '';
     refs.list.innerHTML = listMarkup;
-    return (refs.info.textContent = '');
   }
 }
 
@@ -76,6 +76,6 @@ function oneCountries(countries) {
           <p>Languages: ${Object.values(languages)}</p>`;
     })
     .join('');
+  refs.list.textContent = '';
   refs.info.innerHTML = infoMarkup;
-  return (refs.list.textContent = '');
 }
